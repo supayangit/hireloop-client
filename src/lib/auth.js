@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import client from "./mongodb";
 
-const db = client.db();
+const db = client.db("hireloop");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
