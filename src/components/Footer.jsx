@@ -77,20 +77,40 @@ export default function Footer() {
 
             <ul className="space-y-5 text-gray-400">
               <li>
-                <Link href="#">Job Discovery</Link>
+                <Link href="#" className="transition hover:text-white">Job Discovery</Link>
               </li>
               <li>
-                <Link href="#">Worker AI</Link>
+                <Link href="#" className="transition hover:text-white">Worker AI</Link>
               </li>
               <li>
-                <Link href="#">Companies</Link>
+                <Link href="#" className="transition hover:text-white">Companies</Link>
               </li>
               <li>
-                <Link href="#">Salary Data</Link>
+                <Link href="#" className="transition hover:text-white">Salary Data</Link>
               </li>
             </ul>
           </div>
+            {/* Company */}
+            <div>
+            <h3 className="mb-8 text-xl font-medium text-indigo-500">
+              Company
+            </h3>
 
+            <ul className="space-y-5 text-gray-400">
+              <li>
+              <Link href="#" className="transition hover:text-white">About</Link>
+              </li>
+              <li>
+              <Link href="#" className="transition hover:text-white">Blog</Link>
+              </li>
+              <li>
+              <Link href="#" className="transition hover:text-white">Careers</Link>
+              </li>
+              <li>
+              <Link href="#" className="transition hover:text-white">Press</Link>
+              </li>
+            </ul>
+            </div>
           {/* Navigation */}
           <div>
             <h3 className="mb-8 text-xl font-medium text-indigo-500">
@@ -99,13 +119,13 @@ export default function Footer() {
 
             <ul className="space-y-5 text-gray-400">
               <li>
-                <Link href="#">Help Center</Link>
+                <Link href="#" className="transition hover:text-white">Help Center</Link>
               </li>
               <li>
-                <Link href="#">Career Library</Link>
+                <Link href="#" className="transition hover:text-white">Career Library</Link>
               </li>
               <li>
-                <Link href="#">Contact</Link>
+                <Link href="#" className="transition hover:text-white">Contact</Link>
               </li>
             </ul>
           </div>
@@ -118,10 +138,10 @@ export default function Footer() {
 
             <ul className="space-y-5 text-gray-400">
               <li>
-                <Link href="#">Brand Guideline</Link>
+                <Link href="#" className="transition hover:text-white">Brand Guideline</Link>
               </li>
               <li>
-                <Link href="#">Newsroom</Link>
+                <Link href="#" className="transition hover:text-white">Newsroom</Link>
               </li>
             </ul>
           </div>
@@ -134,11 +154,11 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-6">
-            <Link href="#">
+            <Link href="#" className="transition hover:text-white">
               Terms & Policy
             </Link>
 
-            <Link href="#">
+            <Link href="#" className="transition hover:text-white">
               Privacy Guideline
             </Link>
           </div>
