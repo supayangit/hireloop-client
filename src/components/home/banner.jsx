@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Magnifier, MapPin, Briefcase } from "@gravity-ui/icons";
+import { motion } from "motion/react"
 
 const stats = [
   {
@@ -21,6 +22,13 @@ const stats = [
     label: "Satisfaction Rate",
   },
 ];
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" },
+  viewport: {amount: 0.25, once: true},
+};
 
 export default function Banner() {
   return (
@@ -153,9 +161,10 @@ export default function Banner() {
         {/* Stats */}
         <div className="mt-16 md:mt-20 grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((item) => (
-            <div
+            <motion.div
               key={item.label}
-              className="rounded-3xl border border-white/10 bg-black/40 p-8 text-left backdrop-blur-xl"
+              className="rounded-3xl border border-white/50 bg-black/40 p-8 text-left backdrop-blur-xl"
+              {...fadeInUp}
             >
               <h3 className="text-5xl font-semibold text-white">
                 {item.value}
@@ -164,7 +173,7 @@ export default function Banner() {
               <p className="mt-4 text-lg text-gray-400">
                 {item.label}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
