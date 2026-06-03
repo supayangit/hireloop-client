@@ -78,13 +78,13 @@ const SigninPage = () => {
         provider: "google",
       });
 
-      toast.success("Login in with Google...");
+      toast.success("Loging in with Google...");
 
     } catch (err) {
 
       console.error(err);
 
-      toast.error("Google log in failed.");
+      toast.error("Google login failed.");
     }
   };
 
@@ -137,25 +137,28 @@ const SigninPage = () => {
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10 bg-black relative overflow-hidden">
 
-      <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl border border-violet-100">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0%,transparent_70%)]" />
+
+      <div className="relative w-full max-w-md space-y-6 bg-white/[0.03] p-8 rounded-2xl border border-white/10 backdrop-blur-xl">
 
         {/* TITLE */}
-        <h2 className="font-bold text-2xl text-center text-gray-900">
+        <h2 className="font-bold text-2xl text-center text-white">
           Login to HireLoop
         </h2>
 
         {/* SIGNUP LINK */}
         <div className="text-sm text-center">
 
-          <span className="text-gray-500">
+          <span className="text-gray-400">
             No account?
           </span>{" "}
 
           <Link
             href="/register"
-            className="text-violet-600 hover:underline font-medium"
+            className="text-indigo-400 hover:text-indigo-300 hover:underline font-medium"
           >
             Register
           </Link>
@@ -171,7 +174,7 @@ const SigninPage = () => {
           {/* GLOBAL ERROR */}
           {errors.root && (
 
-            <p className="text-red-500 text-sm text-center">
+            <p className="text-red-400 text-sm text-center">
               {errors.root.message}
             </p>
 
@@ -180,10 +183,11 @@ const SigninPage = () => {
           {/* EMAIL */}
           <div className="flex flex-col gap-1 text-left">
 
-            <Label>Email</Label>
+            <Label className="text-white">Email</Label>
 
             <Input
               placeholder="john@example.com"
+              className="bg-white/[0.05] border-white/10 text-white placeholder-gray-500"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -196,7 +200,7 @@ const SigninPage = () => {
 
             {errors.email && (
 
-              <p className="text-red-500 text-sm">
+              <p className="text-red-400 text-sm">
                 {errors.email.message}
               </p>
 
@@ -207,13 +211,14 @@ const SigninPage = () => {
           {/* PASSWORD */}
           <div className="flex flex-col gap-1 text-left">
 
-            <Label>Password</Label>
+            <Label className="text-white">Password</Label>
 
             <InputGroup>
 
               <InputGroup.Input
                 type={isVisible ? "text" : "password"}
                 placeholder="Enter your password"
+                className="bg-white/[0.05] border-white/10 text-white placeholder-gray-500"
                 {...register("password", {
                   required: "Password is required",
                 })}
@@ -225,6 +230,7 @@ const SigninPage = () => {
                   isIconOnly
                   size="sm"
                   variant="ghost"
+                  className="text-gray-400 hover:text-white"
                   onPress={() => setIsVisible(!isVisible)}
                 >
 
@@ -242,7 +248,7 @@ const SigninPage = () => {
 
             {errors.password && (
 
-              <p className="text-red-500 text-sm">
+              <p className="text-red-400 text-sm">
                 {errors.password.message}
               </p>
 
@@ -253,7 +259,7 @@ const SigninPage = () => {
               <button
                 type="button"
                 onClick={handleForgotPassword}
-                className="text-sm text-violet-600 hover:underline"
+                className="text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
               >
                 Forgot Password?
               </button>
@@ -268,19 +274,19 @@ const SigninPage = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-violet-600 hover:bg-violet-700 w-full sm:w-auto text-white"
+              className="bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto text-white"
             >
 
               <Check />
 
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Loging in..." : "Login"}
 
             </Button>
 
             <Button
               type="reset"
-              variant="secondary"
-              className="text-violet-600 w-full sm:w-auto"
+              variant="bordered"
+              className="text-white border-white/20 hover:bg-white/10 w-full sm:w-auto"
             >
               Reset
             </Button>
@@ -290,10 +296,10 @@ const SigninPage = () => {
           {/* GOOGLE LOGIN */}
           <Button
             onClick={handleGoogleSignIn}
-            className="bg-white hover:bg-violet-50 text-black dark:text-white dark:hover:bg-gray-800 border border-violet-200 flex items-center justify-center gap-2 w-full py-2"
+            className="bg-white/[0.05] hover:bg-white/10 text-white border border-white/20 flex items-center justify-center gap-2 w-full py-2"
           >
 
-            <FaGoogle className="text-violet-500" />
+            <FaGoogle className="text-indigo-400" />
 
             Continue with Google
 

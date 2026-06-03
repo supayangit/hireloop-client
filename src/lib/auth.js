@@ -11,6 +11,17 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 6,
+  },
+
+  user: {
+    additonalFields:{
+      role: {
+        default: "seeker",
+        type: "string",
+        
+      }
+    }
   },
 
   socialProviders: {
