@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Check } from "@gravity-ui/icons";
@@ -10,6 +10,7 @@ import {
   Label,
   InputGroup,
 } from "@heroui/react";
+import { Description, Radio, RadioGroup } from "@heroui/react";
 import Link from "next/link";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { useState } from "react";
@@ -25,11 +26,16 @@ const SignupPage = () => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      role: "seeker",
+    },
+  });
 
   // PASSWORD VALIDATION
   const validatePassword = (password) => {
@@ -54,6 +60,11 @@ const SignupPage = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log("SUBMITED DATA:", data);
+    if (!data) {
+      toast.error("Invalid form submission");
+      return;
+    }
 
     const passwordCheck = validatePassword(data.password);
 
@@ -80,7 +91,7 @@ const SignupPage = () => {
 
           name: data.name,
           image: data.image_url,
-          role: "seeker",
+          role: data.role,
           email: data.email,
           password: data.password,
 
@@ -186,7 +197,7 @@ const SignupPage = () => {
               })}
             />
 
-            {errors.name && (
+            {errors?.name && (
 
               <p className="text-red-400 text-sm">
                 {errors.name.message}
@@ -213,7 +224,7 @@ const SignupPage = () => {
               })}
             />
 
-            {errors.image_url && (
+            {errors?.image_url && (
 
               <p className="text-red-400 text-sm">
                 {errors.image_url.message}
@@ -221,6 +232,58 @@ const SignupPage = () => {
 
             )}
 
+          </div>
+
+          {/* Role */}
+          {/* Role */}
+          <div className="flex flex-col gap-1 text-left">
+            <Label className="text-white">Role</Label>
+
+            <Controller
+              name="role"
+              control={control}
+              defaultValue="seeker"
+              rules={{
+                required: "Please select a role",
+              }}
+              render={({ field }) => (
+                <RadioGroup
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                >
+                  <Radio value="seeker">
+                    <Radio.Control>
+                      <Radio.Indicator>
+                        <span>✓</span>
+                      </Radio.Indicator>
+                    </Radio.Control>
+
+                    <Radio.Content>
+                      <Label>Job Seeker</Label>
+                    </Radio.Content>
+                  </Radio>
+
+                  <Radio value="recruiter">
+                    <Radio.Control>
+                      <Radio.Indicator>
+                        <span>✓</span>
+                      </Radio.Indicator>
+                    </Radio.Control>
+
+                    <Radio.Content>
+                      <Label>Job Recruiter</Label>
+                    </Radio.Content>
+                  </Radio>
+                </RadioGroup>
+              )}
+            />
+
+            {errors?.role && (
+              <p className="text-red-400 text-sm">
+                {errors.role.message}
+              </p>
+            )}
           </div>
 
           {/* EMAIL */}
@@ -241,7 +304,7 @@ const SignupPage = () => {
               })}
             />
 
-            {errors.email && (
+            {errors?.email && (
 
               <p className="text-red-400 text-sm">
                 {errors.email.message}
@@ -289,7 +352,7 @@ const SignupPage = () => {
 
             </InputGroup>
 
-            {errors.password && (
+            {errors?.password && (
 
               <p className="text-red-400 text-sm">
                 {errors.password.message}

@@ -10,6 +10,9 @@ function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
 
   const { data: session } = authClient.useSession();
+  useEffect(() => {
+    console.log("Session changed:", session);
+  }, [session]);
 
   const navbarRef = useRef(null);
 
@@ -224,20 +227,18 @@ function Navbar() {
       {/* Overlay */}
       <div
         onClick={() => setIsMenuOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-all duration-300 ${
-          isMenuOpen
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-all duration-300 ${isMenuOpen
             ? "visible opacity-100"
             : "invisible opacity-0"
-        }`}
+          }`}
       />
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 z-50 h-screen w-75 border-l border-white/10 bg-[#0F0F13] transition-transform duration-300 ${
-          isMenuOpen
+        className={`fixed top-0 right-0 z-50 h-screen w-75 border-l border-white/10 bg-[#0F0F13] transition-transform duration-300 ${isMenuOpen
             ? "translate-x-0"
             : "translate-x-full"
-        }`}
+          }`}
       >
         <div className="flex items-center justify-between border-b border-white/10 p-5">
           <h3 className="text-lg font-semibold text-white">
