@@ -69,12 +69,22 @@ export function DashboardSidebar() {
 
                 <div className="flex-1">{NavLink}</div>
 
-                <div className="pt-2 space-y-2">
-                    <Button className="w-full bg-indigo-600 text-white hover:bg-indigo-500">Post a Job</Button>
+                <div className="pt-2 space-y-3">
+                    <Link
+                        href="dashboard/recruiter/jobs/new"
+                        className="w-full block rounded-md px-4 py-2 text-left text-white bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg transition-transform duration-150 transform-gpu hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    >
+                        Post a Job
+                    </Link>
 
                     {session?.user ? (
                         <>
-                            <Link href="/profile" className="w-full block rounded-md border border-white/6 px-4 py-2 text-left text-white">Profile</Link>
+                            <Link
+                                href="/profile"
+                                className="w-full block rounded-md border border-white/6 px-4 py-2 text-left text-white hover:bg-white/5 transition-colors duration-150"
+                            >
+                                Profile
+                            </Link>
                         </>
                     ) : null}
                 </div>
