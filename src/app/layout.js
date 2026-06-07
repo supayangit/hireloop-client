@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       data-theme="dark"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col gap-10">
+      <body className="min-h-full flex flex-col">
         <Navbar></Navbar>
         <main>
           {children}
