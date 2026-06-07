@@ -156,7 +156,7 @@ export default function NewJobClient() {
     };
 
     return (
-        <main className="min-h-screen bg-[#09090b] text-white p-8">
+        <main className="min-h-screen text-white p-8">
             <div className="max-w-4xl mx-auto">
                 {/* Page Header */}
                 <div className="mb-8">

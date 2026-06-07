@@ -11,7 +11,6 @@ const RecruiterJobsPage = async () => {
     return (
         <div className="p-8 md:p-12">
             {/* Header */}
-            {/* Header */}
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-4xl font-semibold tracking-tight text-white">
