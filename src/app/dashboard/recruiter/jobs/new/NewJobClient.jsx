@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { createJob } from "@/lib/actions/jobs";
+import { redirect } from "next/navigation";
 
 
 const jobTypes = [
@@ -143,6 +144,7 @@ export default function NewJobClient() {
                     benefits: "",
                 });
                 setIsRemote(false);
+                redirect(`/dashboard/recruiter/jobs/${res.insertedId}`); // Redirect to the new job's detail page   
             }
 
         } catch (err) {
