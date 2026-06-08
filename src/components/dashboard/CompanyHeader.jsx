@@ -4,6 +4,7 @@ import { Button, Input, TextArea } from '@heroui/react';
 import { FiPlus, FiX, FiMapPin, FiUsers, FiGlobe, FiTag, FiUpload } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { createCompany } from '@/lib/actions/company';
+import { ObjectId } from "mongodb";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -51,7 +52,9 @@ const CompanyHeader = ({ recruiter }) => {
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const recruiterId = recruiter?.id || '';
+    const recruiterId = recruiter?.id
+        ? new ObjectId(recruiter.id)
+        : null;
     console.log("recruiter id:", recruiterId);
 
     const [form, setForm] = useState({
