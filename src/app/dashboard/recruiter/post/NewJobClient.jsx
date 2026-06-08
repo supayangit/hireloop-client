@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button, TextArea, Card, CardContent, CardHeader } from "@heroui/react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import { createJob } from "@/lib/actions/jobs";
 import { redirect } from "next/navigation";
-
 
 const jobTypes = [
     { key: "full-time", label: "Full-time" },
@@ -35,17 +34,31 @@ const currencies = [
     { key: "inr", label: "INR (₹)" },
 ];
 
-// Mock company used as a fallback when a real company ID is not available.
-// This provides a stable-ish random id so submissions don't fail in dev.
-const mockCompany = {
-    id: `mock_${Math.random().toString(36).substring(2, 9)}`,
-    name: "Acme Corp",
-    approved: true,
-};
-export default function NewJobClient() {
+export default function NewJobClient({ recruiterId, companies }) {
     const { data: session } = authClient.useSession();
     const [isLoading, setIsLoading] = useState(false);
     const [isRemote, setIsRemote] = useState(false);
+
+    const [selectedCompanyId, setSelectedCompanyId] = useState(() => {
+        if (companies && companies.length > 0) return companies[0]._id || companies[0].id;
+        return "";
+    });
+
+    const [selectedCompany, setSelectedCompany] = useState(null);
+
+
+    console.log("companies in post main page:", companies);
+    console.log("recruiterId in post main page:", recruiterId);
+
+    useEffect(() => {
+        if (!companies || companies.length === 0) {
+            setSelectedCompany(null);
+            return;
+        }
+
+        const match = companies.find((c) => (c._id || c.id) === selectedCompanyId) || companies[0];
+        setSelectedCompany(match || null);
+    }, [selectedCompanyId, companies]);
 
     const [formData, setFormData] = useState({
         // Job Info
@@ -107,15 +120,19 @@ export default function NewJobClient() {
             return;
         }
 
+        if (!selectedCompanyId) {
+            toast.error("Please select a company to associate with this job");
+            return;
+        }
+
         setIsLoading(true);
 
         try {
-            // prefer a real company id from session if available, otherwise use mockCompany
-            const companyId = session?.user?.companyId || session?.user?.company?.id || mockCompany.id;
-
+            // use selected company id and recruiter id (prefer prop, fallback to session)
+            const companyId = selectedCompanyId;
             const payload = {
                 ...formData,
-                recruiterId: session?.user?.id,
+                recruiterId: recruiterId || session?.user?.id,
                 status: "active",
                 isPublic: true,
                 companyId,
@@ -375,12 +392,45 @@ export default function NewJobClient() {
                     <Card className="bg-white/[0.03] border border-white/10 backdrop-blur-xl">
                         <CardHeader className="flex flex-col items-start px-6 py-5 border-b border-white/10">
                             <h2 className="text-xl font-semibold text-white">Company</h2>
-                            <p className="text-sm text-gray-400 mt-1">Auto-filled from your registered company</p>
+                            <p className="text-sm text-gray-400 mt-1">Select the company to associate with this job</p>
                         </CardHeader>
                         <CardContent className="px-6 py-6">
-                            <div className="p-4 rounded-lg bg-white/[0.05] border border-white/10">
-                                <p className="text-sm text-gray-400">Company Info</p>
-                                <p className="text-white font-semibold mt-1">Your registered company will be linked to this job</p>
+                            <div className="space-y-4">
+                                <label className="block text-sm text-white">Select Company *</label>
+                                <select
+                                    value={selectedCompanyId}
+                                    onChange={(e) => setSelectedCompanyId(e.target.value)}
+                                    className="w-full bg-white/[0.05] border border-white/10 text-white p-2 rounded"
+                                >
+                                    <option value="" className="text-black">Choose company</option>
+                                    {companies && companies.map((c) => (
+                                        <option key={c._id || c.id} value={c._id || c.id} className="text-black">
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {selectedCompany ? (
+                                    <div className="flex items-center gap-4 p-4 rounded-lg bg-white/[0.03] border border-white/10">
+                                        { (selectedCompany.logo || selectedCompany.logoUrl || selectedCompany.image) ? (
+                                            <img
+                                                src={selectedCompany.logo || selectedCompany.logoUrl || selectedCompany.image}
+                                                alt={selectedCompany.name}
+                                                className="h-12 w-12 object-cover rounded"
+                                            />
+                                        ) : (
+                                            <div className="h-12 w-12 bg-white/10 rounded flex items-center justify-center text-sm text-gray-300">No Logo</div>
+                                        )}
+                                        <div>
+                                            <div className="text-white font-semibold">{selectedCompany.name}</div>
+                                            <div className="text-xs text-gray-400">{selectedCompany.approved ? 'Approved' : 'Pending approval'}</div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="p-4 rounded-lg bg-white/[0.05] border border-white/10">
+                                        <p className="text-sm text-gray-400">No company selected</p>
+                                    </div>
+                                )}
                                 <p className="text-xs text-gray-500 mt-2">Ensure your company is approved by an admin to make this job publicly visible</p>
                             </div>
                         </CardContent>

@@ -3,16 +3,22 @@ import CompanyHeader from '@/components/dashboard/CompanyHeader';
 import { getCompanies } from '@/lib/actions/company';
 import CompanyCard from '@/components/dashboard/CompanyCard';
 import { getUserSession } from '@/lib/core/session';
+// import { ObjectId } from "mongodb";
 
 export default async function CompanyPage() {
   const companies = await getCompanies();
   const user = await getUserSession();
+
   console.log("user session in company page,", user);
+
+  const recruiterId = user?._id || null;
+
+  console.log("recruiter id:", recruiterId);
 
   return (
     <main className="min-h-screen text-white p-8 md:p-12">
       <div className="max-w-7xl mx-auto space-y-8">
-        <CompanyHeader recruiter={user} />
+        <CompanyHeader recruiterId={recruiterId} />
 
         <div className="mt-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

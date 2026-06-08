@@ -21,23 +21,24 @@ export const createCompany = async (companyData) => {
 }
 
 export const getCompanies = async (recruiterId) => {
-  // If no recruiterId provided, try to get it from the current session
-  if (!recruiterId) {
-    const user = await getUserSession();
-    // user id might be stored as `id` or `_id` depending on auth
-    recruiterId = user?.id || user?._id || null;
-  }
+  console.log("getCompanies recruiterId:", recruiterId);
 
   let url = `${baseUrl}/api/companies`;
+
   if (recruiterId) {
     url += `?recruiterId=${encodeURIComponent(recruiterId)}`;
   }
 
-  const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to fetch companies');
+  console.log("URL:", url);
+
+  const res = await fetch(url, { cache: "no-store" });
+
   const data = await res.json();
+
+  console.log("API RESPONSE:", data);
+
   return data.companies || [];
-}
+};
 
 export const getCompanyById = async (id) => {
   const companies = await getCompanies();

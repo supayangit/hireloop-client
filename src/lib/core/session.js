@@ -6,5 +6,7 @@ export const getUserSession = async () => {
     headers: await headers(),
   });
 
+  console.log("session in getUserSession,", session);
+
   return session?.user || null;
 };
