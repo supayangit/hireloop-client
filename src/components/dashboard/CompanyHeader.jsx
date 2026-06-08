@@ -47,9 +47,13 @@ const employeeRanges = [
     { key: '500+', label: '500+' },
 ];
 
-const CompanyHeader = () => {
+const CompanyHeader = ({ recruiter }) => {
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const recruiterId = recruiter?.id || '';
+    console.log("recruiter id:", recruiterId);
+
     const [form, setForm] = useState({
         name: '',
         website: '',
@@ -59,6 +63,8 @@ const CompanyHeader = () => {
         location: '',
         employeesRange: '',
         logo: '',
+        status: 'pending',
+        recruiterId: recruiterId,
     });
 
     const openModal = () => setOpen(true);
@@ -124,6 +130,8 @@ const CompanyHeader = () => {
                 location: '',
                 employeesRange: '',
                 logo: '',
+                status: 'pending',
+                recruiterId: recruiterId,
             });
 
             setLogoFile(null);

@@ -1,6 +1,17 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import client from "./mongodb";
+import { MongoClient } from "mongodb";
+
+const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  throw new Error("MONGODB_URI is missing");
+}
+
+console.log(process.env.MONGODB_URI);
+const client = new MongoClient(uri);
+
+await client.connect();
 
 const db = client.db("hireloop");
 
@@ -15,13 +26,12 @@ export const auth = betterAuth({
   },
 
   user: {
-    additionalFields:{
+    additionalFields: {
       role: {
         default: "seeker",
         type: "string",
-
-      }
-    }
+      },
+    },
   },
 
   socialProviders: {
@@ -32,3 +42,5 @@ export const auth = betterAuth({
     },
   },
 });
+
+export { client, db };
