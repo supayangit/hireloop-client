@@ -62,10 +62,6 @@ export function DashboardSidebar() {
             {/* Desktop sidebar */}
             <aside className="hidden md:flex w-64 flex-col gap-6 p-6 bg-black/80 border-r border-white/6">
                 <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-white">HireLoop</h1>
-                    </div>
-
                     <LazyProfile variant="sidebar" />
                 </div>
 
