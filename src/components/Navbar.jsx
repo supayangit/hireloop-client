@@ -83,7 +83,7 @@ function Navbar() {
               href="/"
               className="flex items-center gap-3"
             >
-              <div className="rounded-full bg-linear-to-r from-violet-400 to-pink-400 p-2">
+              <div className="bg-transparent">
                 <Image
                   src="/logo.png"
                   alt="HireLoop"
