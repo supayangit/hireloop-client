@@ -10,7 +10,7 @@ import {
 import { capitalize } from "@/lib/string";
 import { getCompanyById } from "@/lib/actions/company";
 
-const JobDetailCard = async ({ job }) => {
+const JobDetailCard = async ({ job, backHref = '/dashboard/recruiter/jobs' }) => {
   if (!job) return null;
 
   const company = job.companyId ? await getCompanyById(job.companyId) : job.company || null;
@@ -23,7 +23,7 @@ const JobDetailCard = async ({ job }) => {
       <nav className="top-0 left-0 right-0 z-50 bg-[#0b0b0b]/70 backdrop-blur-sm border-b border-white/[0.04]">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
-            <Link href="/dashboard/recruiter/jobs" className="inline-flex items-center gap-2 text-zinc-300 hover:text-white transition-colors">
+            <Link href={backHref} className="inline-flex items-center gap-2 text-zinc-300 hover:text-white transition-colors">
               <FiArrowLeft />
               <span className="text-sm">Back to jobs</span>
             </Link>

@@ -149,7 +149,7 @@ const JobCard = async ({ job }) => {
           </div>
 
           <Link
-            href={`/dashboard/recruiter/jobs/${_id}`}
+            href={`/jobs/${_id}`}
             className="inline-flex items-center px-4 py-2 rounded-xl border border-white/[0.08] bg-white/[0.03] text-zinc-200 text-sm transition-all duration-200 hover:bg-white/[0.06] hover:border-white/[0.12]"
           >
             View Details

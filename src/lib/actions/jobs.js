@@ -63,3 +63,28 @@ export const getAllJobs = async () => {
     const data = await res.json();
     return data.jobs || [];
 }
+
+// Update a job by id
+export const updateJob = async (id, updateData) => {
+    if (!id) throw new Error('Missing job id');
+
+    // Ensure updatedAt is included
+    const payload = { ...updateData, updatedAt: new Date().toISOString() };
+
+    const res = await fetch(`${baseUrl}/api/jobs/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Failed to update job: ${text}`);
+    }
+
+    const data = await res.json();
+    // Expect API to return the updated job as `job` or the whole object
+    return data.job || data || {};
+}

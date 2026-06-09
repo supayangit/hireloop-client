@@ -1,2 +1,77 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
+/* Global textarea + custom scrollbar + fade overlay styles (dark theme) */
+
+/* Hide native number input spinners globally where .no-spinner is applied */
+.no-spinner input[type=number]::-webkit-outer-spin-button,
+.no-spinner input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.no-spinner input[type=number] {
+	-moz-appearance: textfield;
+}
+
+/* Textarea wrapper */
+.textarea-wrap { position: relative; margin-bottom: 0.75rem; }
+.textarea-scroll { position: relative; max-height: 180px; overflow: auto; -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Base textarea inside our scroll container */
+.textarea-scroll .custom-textarea,
+.textarea-scroll textarea {
+	width: 100%;
+	max-height: 180px;
+	overflow: auto;
+	padding-right: 8px;
+	background: transparent;
+	color: inherit;
+	resize: vertical;
+	border: 0;
+}
+
+/* WebKit: hide scrollbar by default but keep space zero */
+.textarea-scroll::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
+.textarea-scroll::-webkit-scrollbar-button { display: none; }
+.textarea-scroll::-webkit-scrollbar-track { background: transparent; }
+.textarea-scroll::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,0);
+	border-radius: 8px;
+	transition: background .18s ease, opacity .18s ease;
+	opacity: 0;
+}
+
+/* Reveal sleek thumb on hover or focus-within */
+.textarea-scroll:hover::-webkit-scrollbar-thumb,
+.textarea-scroll:focus-within::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,0.12);
+	opacity: 1;
+}
+
+/* Firefox: hide by default, reveal on hover/focus-within */
+.textarea-scroll { scrollbar-width: none; }
+.textarea-scroll:hover, .textarea-scroll:focus-within { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent; }
+
+/* Fallback for IE/Edge */
+.textarea-scroll { -ms-overflow-style: none; }
+
+/* Fade overlay at bottom to hint more content (dark-themed) */
+.textarea-fade {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 48px;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(15,15,15,0) 0%, rgba(15,15,15,0.95) 85%);
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	transition: opacity .18s ease;
+}
+
+/* Hidden when no overflow (toggled by JS) */
+.textarea-scroll.no-overflow .textarea-fade { opacity: 0; }
+
+/* When not hidden ensure visible */
+.textarea-scroll:not(.no-overflow) .textarea-fade { opacity: 1; }
+
