@@ -37,6 +37,26 @@ const industries = [
     { key: 'healthcare', label: 'Healthcare' },
     { key: 'marketing', label: 'Marketing' },
     { key: 'design', label: 'Design' },
+    { key: 'energy-resources', label: 'Energy & Resources' },
+    { key: 'aerospace', label: 'Aerospace' },
+    { key: 'biotech', label: 'Biotech' },
+    { key: 'manufacturing', label: 'Manufacturing' },
+    { key: 'retail', label: 'Retail' },
+    { key: 'education', label: 'Education' },
+    { key: 'government', label: 'Government & Public Sector' },
+    { key: 'transportation', label: 'Transportation & Logistics' },
+    { key: 'real-estate', label: 'Real Estate' },
+    { key: 'hospitality', label: 'Hospitality' },
+    { key: 'agriculture', label: 'Agriculture' },
+    { key: 'telecommunications', label: 'Telecommunications' },
+    { key: 'legal', label: 'Legal' },
+    { key: 'consumer-goods', label: 'Consumer Goods' },
+    { key: 'pharmaceuticals', label: 'Pharmaceuticals' },
+    { key: 'environment', label: 'Environmental & Sustainability' },
+    { key: 'automotive', label: 'Automotive' },
+    { key: 'media', label: 'Media & Entertainment' },
+    { key: 'construction', label: 'Construction' },
+    { key: 'nonprofit', label: 'Nonprofit' },
 ];
 
 const employeeRanges = [
@@ -44,7 +64,10 @@ const employeeRanges = [
     { key: '11-50', label: '11-50' },
     { key: '51-200', label: '51-200' },
     { key: '201-500', label: '201-500' },
-    { key: '500+', label: '500+' },
+    { key: '501-1000', label: '501-1,000' },
+    { key: '1001-5000', label: '1,001-5,000' },
+    { key: '5001-10000', label: '5,001-10,000' },
+    { key: '10000+', label: '10,000+' },
 ];
 
 const CompanyHeader = ({ recruiterId }) => {

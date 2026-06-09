@@ -15,9 +15,6 @@ export const createJob = async(newJobData) => {
     return res.json();
 }
 
-// If recruiterId is provided (or inferred from session), fetch companies
-// for that recruiter and include their companyId(s) as query params
-// to the jobs API so only jobs belonging to those companies are returned.
 export const getJobs = async (recruiterId) => {
     // If no recruiterId provided, try to get it from the current session
     if (!recruiterId) {

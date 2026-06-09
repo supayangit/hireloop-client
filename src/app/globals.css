@@ -75,3 +75,27 @@
 /* When not hidden ensure visible */
 .textarea-scroll:not(.no-overflow) .textarea-fade { opacity: 1; }
 
+/* Skeleton shimmer for loading placeholders */
+.skeleton {
+	display: inline-block;
+	height: 1rem;
+	background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.04) 100%);
+	border-radius: 8px;
+	animation: shimmer 1.2s infinite linear;
+}
+
+.skeleton.button {
+	width: 5.5rem;
+	height: 2.25rem;
+}
+
+.skeleton.small {
+	width: 3.25rem;
+	height: 1.1rem;
+}
+
+@keyframes shimmer {
+	0% { background-position: -200px 0; }
+	100% { background-position: 200px 0; }
+}
+

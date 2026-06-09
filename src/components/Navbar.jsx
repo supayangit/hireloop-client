@@ -29,7 +29,10 @@ function Navbar() {
       label: "Pricing",
       href: "/pricing",
     },
+    // Dashboard link is rendered dynamically based on user role
   ];
+
+  const dashboardHref = session?.user?.role ? `/dashboard/${session.user.role}` : "/dashboard";
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -107,13 +110,26 @@ function Navbar() {
                     </Link>
                   </li>
                 ))}
+                {/* Dashboard: show link only when user present; show skeleton while loading */}
+                {session === undefined ? (
+                  <li><div className="skeleton small" aria-hidden /></li>
+                ) : session?.user ? (
+                  <li>
+                    <Link href={dashboardHref} className="text-gray-300 transition hover:text-white">Dashboard</Link>
+                  </li>
+                ) : null}
               </ul>
 
               <div className="mx-8 h-7 w-px bg-white/10" />
 
               {/* Auth Area */}
               <div className="relative flex items-center">
-                {session?.user ? (
+                {session === undefined ? (
+                  <div className="flex items-center gap-4">
+                    <div className="skeleton button" />
+                    <div className="skeleton button" />
+                  </div>
+                ) : session?.user ? (
                   <>
                     <button
                       onClick={() =>
@@ -279,6 +295,15 @@ function Navbar() {
                 </Link>
               </li>
             ))}
+
+            {/* Mobile: dashboard link placeholder while loading, or link when available */}
+            {session === undefined ? (
+              <li><div className="skeleton button" aria-hidden /></li>
+            ) : session?.user ? (
+              <li>
+                <Link href={dashboardHref} onClick={() => setIsMenuOpen(false)} className="block rounded-lg px-4 py-3 text-gray-300 transition hover:bg-white/5 hover:text-white">Dashboard</Link>
+              </li>
+            ) : null}
           </ul>
 
           <div className="my-6 h-px bg-white/10" />

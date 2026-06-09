@@ -6,14 +6,14 @@ import { getUserSession } from '@/lib/core/session';
 // import { ObjectId } from "mongodb";
 
 export default async function CompanyPage() {
-  const companies = await getCompanies();
-  const user = await getUserSession();
 
+  const user = await getUserSession();
   console.log("user session in company page,", user);
 
-  const recruiterId = user?._id || null;
+  const recruiterId = user?.id || user?._id || null;
+  console.log("recruiter id in company page", recruiterId);
 
-  console.log("recruiter id:", recruiterId);
+  const companies = await getCompanies(recruiterId);
 
   return (
     <main className="min-h-screen text-white p-8 md:p-12">
