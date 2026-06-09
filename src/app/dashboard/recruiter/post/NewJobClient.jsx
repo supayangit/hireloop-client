@@ -75,6 +75,7 @@ export default function NewJobClient({ recruiterId, companies }) {
         responsibilities: "",
         requirements: "",
         benefits: "",
+        createdAt: new Date(),
     });
 
     const handleInputChange = (e) => {

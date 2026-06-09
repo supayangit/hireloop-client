@@ -54,3 +54,12 @@ export const getJobById = async (id) => {
     const jobs = await getJobs();
     return jobs.find(j => j._id === id) || null;
 }
+
+// Fetch all jobs without recruiter/company filtering
+export const getAllJobs = async () => {
+    const url = `${baseUrl}/api/jobs`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch jobs');
+    const data = await res.json();
+    return data.jobs || [];
+}

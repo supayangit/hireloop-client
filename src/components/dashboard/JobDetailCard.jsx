@@ -7,22 +7,40 @@ import {
   FiDollarSign,
   FiCalendar,
 } from "react-icons/fi";
+import { capitalize } from "@/lib/string";
+import { getCompanyById } from "@/lib/actions/company";
 
-const JobDetailCard = ({ job }) => {
+const JobDetailCard = async ({ job }) => {
   if (!job) return null;
 
+  const company = job.companyId ? await getCompanyById(job.companyId) : job.company || null;
+  const companyName = company?.name || job.companyName || null;
+  const companyLogo = company?.logo || job.companyLogo || job.logo || null;
+
   return (
-    <div className="py-6">
-      {/* Back Link */}
-      <div className="mb-6">
-        <Link
-          href="/dashboard/recruiter/jobs"
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
-        >
-          <FiArrowLeft />
-          Back to jobs
-        </Link>
-      </div>
+    <div className="">
+      {/* Fixed top navigation (sticky, above everything) */}
+      <nav className="top-0 left-0 right-0 z-50 bg-[#0b0b0b]/70 backdrop-blur-sm border-b border-white/[0.04]">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard/recruiter/jobs" className="inline-flex items-center gap-2 text-zinc-300 hover:text-white transition-colors">
+              <FiArrowLeft />
+              <span className="text-sm">Back to jobs</span>
+            </Link>
+
+            <a href="#overview" className="px-3 py-2 rounded text-sm text-zinc-300 hover:bg-white/5">Overview</a>
+            <a href="#responsibilities" className="px-3 py-2 rounded text-sm text-zinc-300 hover:bg-white/5">Responsibilities</a>
+            <a href="#requirements" className="px-3 py-2 rounded text-sm text-zinc-300 hover:bg-white/5">Requirements</a>
+            <a href="#benefits" className="px-3 py-2 rounded text-sm text-zinc-300 hover:bg-white/5">Benefits</a>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <a href="#company" className="px-3 py-2 rounded text-sm text-zinc-300 hover:bg-white/5">Company</a>
+            <a href="#apply" className="px-3 py-2 rounded bg-indigo-600 text-white text-sm hover:bg-indigo-700">Apply</a>
+          </div>
+        </div>
+      </nav>
+      {/* Back Link moved into fixed nav (same row) */}
 
       {/* Card */}
       <div
@@ -37,15 +55,33 @@ const JobDetailCard = ({ job }) => {
         "
       >
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+        <div id="overview" className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div>
             <h1 className="text-4xl font-semibold tracking-tight text-white">
               {job.title}
             </h1>
 
+            {/* Company logo + name (link to company page) */}
+            {company && (
+              <div id="company" className="mt-3 flex items-center gap-3">
+                <Link
+                  href={company._id ? `/dashboard/recruiter/company/${company._id}` : job.companyId ? `/dashboard/recruiter/company/${job.companyId}` : '#'}
+                  className="flex items-center gap-3"
+                >
+                  {companyLogo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={companyLogo} alt={companyName || 'company logo'} className="h-10 w-10 rounded object-cover" />
+                  ) : (
+                    <div className="h-10 w-10 rounded bg-white/5 flex items-center justify-center text-sm text-zinc-300">Logo</div>
+                  )}
+
+                  <span className="text-sm text-zinc-300">{companyName}</span>
+                </Link>
+              </div>
+            )}
+
             <p className="mt-3 text-zinc-400">
-              {job.category} • {job.type} •{" "}
-              {job.isRemote ? "Remote" : job.location}
+              {capitalize(job.category) || 'Not specified'} • {job.isRemote ? 'Remote' : job.location}
             </p>
           </div>
 
@@ -61,7 +97,9 @@ const JobDetailCard = ({ job }) => {
         </div>
 
         {/* Divider */}
-        <div className="my-8 border-t border-white/[0.05]" />
+        <div className="my-4 border-t border-white/[0.05]" />
+
+        {/* (fixed nav above replaces in-card navigation) */}
 
         {/* Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -101,7 +139,7 @@ const JobDetailCard = ({ job }) => {
               </div>
 
               <p className="mt-2 text-zinc-300">
-                {job.type}
+                {capitalize(job.type) || 'Not specified'}
               </p>
             </div>
 
@@ -119,41 +157,43 @@ const JobDetailCard = ({ job }) => {
         </div>
 
         {/* Responsibilities */}
-        <div className="mt-10">
+        <div id="responsibilities" className="mt-10">
           <div className="border-t border-white/[0.05] pt-8">
-            <h3 className="text-xl font-semibold text-white">
-              Responsibilities
-            </h3>
+            <h3 className="text-xl font-semibold text-white">Responsibilities</h3>
 
-            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">
-              {job.responsibilities}
-            </p>
+            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">{job.responsibilities}</p>
           </div>
         </div>
 
         {/* Requirements */}
-        <div className="mt-10">
+        <div id="requirements" className="mt-10">
           <div className="border-t border-white/[0.05] pt-8">
-            <h3 className="text-xl font-semibold text-white">
-              Requirements
-            </h3>
+            <h3 className="text-xl font-semibold text-white">Requirements</h3>
 
-            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">
-              {job.requirements}
-            </p>
+            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">{job.requirements}</p>
           </div>
         </div>
 
         {/* Benefits */}
-        <div className="mt-10">
+        <div id="benefits" className="mt-10">
           <div className="border-t border-white/[0.05] pt-8">
-            <h3 className="text-xl font-semibold text-white">
-              Benefits
-            </h3>
+            <h3 className="text-xl font-semibold text-white">Benefits</h3>
 
-            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">
-              {job.benefits}
-            </p>
+            <p className="mt-4 text-zinc-300 leading-8 whitespace-pre-line">{job.benefits}</p>
+          </div>
+        </div>
+
+        {/* Apply CTA */}
+        <div className="mt-8">
+          <div className="my-6 border-t border-white/[0.05]" />
+
+          <div id="apply" className="flex items-center justify-end">
+            <Link
+              href={`/jobs/${job._id}/apply`}
+              className="inline-flex items-center px-5 py-3 rounded-xl border border-white/[0.08] bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
+            >
+              Apply Now
+            </Link>
           </div>
         </div>
       </div>

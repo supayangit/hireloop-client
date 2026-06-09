@@ -7,7 +7,10 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
-const JobCard = ({ job }) => {
+import { getCompanyById } from "@/lib/actions/company";
+import { capitalize } from "@/lib/string";
+
+const JobCard = async ({ job }) => {
   const {
     _id,
     title,
@@ -20,7 +23,18 @@ const JobCard = ({ job }) => {
     deadline,
     isRemote,
     status,
+    companyId,
+    requirements,
   } = job;
+
+  const company = companyId ? await getCompanyById(companyId) : null;
+  const companyName = company?.name || company?.title || company?.companyName || null;
+
+  const reqText = Array.isArray(requirements)
+    ? requirements.join(", ")
+    : requirements || "Not specified";
+
+  const displayCategory = capitalize(category) || "Not specified";
 
   return (
     <div
@@ -52,10 +66,19 @@ const JobCard = ({ job }) => {
             <h3 className="text-2xl font-semibold tracking-tight text-white">
               {title}
             </h3>
+            {/* Company name under title */}
+            {companyName && (
+              <p className="mt-1 text-sm text-zinc-300">{companyName}</p>
+            )}
 
-            <p className="mt-2 text-sm text-zinc-400">
-              {category} • {type}
-            </p>
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 items-center gap-2 text-sm text-zinc-400">
+              <div>{displayCategory}</div>
+
+              <div className="flex items-center gap-2 justify-end text-sm text-zinc-400">
+                <FiMapPin className="text-zinc-400 text-sm" />
+                <span>{isRemote ? "Remote" : location || "Not specified"}</span>
+              </div>
+            </div>
           </div>
 
           <span
@@ -69,41 +92,42 @@ const JobCard = ({ job }) => {
           </span>
         </div>
 
-        {/* Location */}
-        <div className="mt-6 flex items-center gap-2 text-zinc-300">
-          <FiMapPin className="text-zinc-400 text-lg" />
-          <span>{isRemote ? "Remote" : location || "Not specified"}</span>
-        </div>
+        {/* Compact rows: type+salary, requirements, then deadline+action */}
 
-        {/* Employment Type */}
-        <div className="mt-4 flex items-center gap-2 text-zinc-300">
-          <FiBriefcase className="text-zinc-400 text-lg" />
-          <span>{type}</span>
-        </div>
-
-        {/* Salary */}
-        <div className="mt-6">
-          <div className="flex items-center gap-2 text-zinc-500 text-xs uppercase tracking-wider">
-            <FiDollarSign />
-            Salary Range
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+          <div className="flex items-center gap-2 text-zinc-300">
+            <FiBriefcase className="text-zinc-400 text-lg" />
+            <span>{capitalize(type) || "Not specified"}</span>
           </div>
 
-          <p className="mt-2 text-lg font-medium text-zinc-100">
-            {currency?.toUpperCase()} {salaryMin} - {salaryMax}
-          </p>
+          <div className="text-right">
+            <div className="flex items-center gap-2 justify-end text-zinc-500 text-xs uppercase tracking-wider">
+              <FiDollarSign />
+              Salary Range
+            </div>
+
+            <p className="mt-2 text-lg font-medium text-zinc-100">
+              {currency?.toUpperCase()} {salaryMin} - {salaryMax}
+            </p>
+          </div>
         </div>
 
-        {/* Deadline */}
+        {/* Requirements (clamped to 2 lines) */}
         <div className="mt-6">
           <div className="flex items-center gap-2 text-zinc-500 text-xs uppercase tracking-wider">
-            <FiCalendar />
-            Application Deadline
+            Requirements
           </div>
 
-          <p className="mt-2 text-zinc-300">
-            {deadline
-              ? new Date(deadline).toLocaleDateString()
-              : "Not specified"}
+          <p
+            className="mt-2 text-sm text-zinc-300"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {reqText}
           </p>
         </div>
       </div>
@@ -113,28 +137,20 @@ const JobCard = ({ job }) => {
         <div className="my-6 border-t border-white/[0.05]" />
 
         <div className="flex items-center justify-between">
-          <span className="text-sm text-zinc-500">
-            View full job details
-          </span>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2 text-zinc-500 text-xs uppercase tracking-wider">
+              <FiCalendar />
+              Deadline
+            </div>
+
+            <p className="mt-2 text-sm text-zinc-300">
+              {deadline ? new Date(deadline).toLocaleDateString() : "Not specified"}
+            </p>
+          </div>
 
           <Link
             href={`/dashboard/recruiter/jobs/${_id}`}
-            className="
-              inline-flex
-              items-center
-              px-4
-              py-2
-              rounded-xl
-              border
-              border-white/[0.08]
-              bg-white/[0.03]
-              text-zinc-200
-              text-sm
-              transition-all
-              duration-200
-              hover:bg-white/[0.06]
-              hover:border-white/[0.12]
-            "
+            className="inline-flex items-center px-4 py-2 rounded-xl border border-white/[0.08] bg-white/[0.03] text-zinc-200 text-sm transition-all duration-200 hover:bg-white/[0.06] hover:border-white/[0.12]"
           >
             View Details
           </Link>
