@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import LazyProfile from "@/components/LazyProfile";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -122,98 +123,9 @@ function Navbar() {
 
               <div className="mx-8 h-7 w-px bg-white/10" />
 
-              {/* Auth Area */}
+              {/* Auth Area: lazy-load profile and show skeletons while session loads */}
               <div className="relative flex items-center">
-                {session === undefined ? (
-                  <div className="flex items-center gap-4">
-                    <div className="skeleton button" />
-                    <div className="skeleton button" />
-                  </div>
-                ) : session?.user ? (
-                  <>
-                    <button
-                      onClick={() =>
-                        setProfileOpen((prev) => !prev)
-                      }
-                      className="relative h-11 w-11 overflow-hidden rounded-full border border-white/20 hover:scale-105 transition"
-                    >
-                      <Image
-                        src={
-                          session.user.image ||
-                          "/assets/user.png"
-                        }
-                        alt={
-                          session.user.name || "User"
-                        }
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-
-                    {profileOpen && (
-                      <div className="absolute right-0 top-14 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#111111] shadow-2xl">
-                        <div className="flex items-center gap-3 border-b border-white/10 p-4">
-                          <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                            <Image
-                              src={
-                                session.user.image ||
-                                "/assets/user.png"
-                              }
-                              alt="User"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-
-                          <div className="min-w-0">
-                            <p className="font-semibold text-white">
-                              {session.user.name}
-                            </p>
-
-                            <p className="truncate text-sm text-gray-400">
-                              {session.user.email}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="p-2">
-                          <Link
-                            href="/profile"
-                            onClick={() =>
-                              setProfileOpen(false)
-                            }
-                            className="block rounded-xl px-4 py-3 text-gray-300 transition hover:bg-white/5 hover:text-white"
-                          >
-                            Profile
-                          </Link>
-
-                          <button
-                            onClick={handleSignOut}
-                            className="w-full rounded-xl px-4 py-3 text-left text-red-400 transition hover:bg-red-500/10"
-                          >
-                            Logout
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="flex items-center gap-5">
-                    <Link
-                      href="/login"
-                      className="text-violet-400 transition hover:text-violet-300"
-                    >
-                      Login
-                    </Link>
-
-                    <Link
-                      href="/register"
-                      className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-105"
-                    >
-                      Get Started
-                    </Link>
-                  </div>
-                )}
+                <LazyProfile variant="compact" />
               </div>
             </div>
 
@@ -308,64 +220,33 @@ function Navbar() {
 
           <div className="my-6 h-px bg-white/10" />
 
-          {session?.user ? (
+          {session === undefined ? (
+            <div className="space-y-4">
+              <div className="skeleton button" />
+              <div className="skeleton button" />
+            </div>
+          ) : session?.user ? (
             <div className="space-y-4">
               <div className="flex items-center gap-3 rounded-xl border border-white/10 p-4">
                 <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                  <Image
-                    src={
-                      session.user.image ||
-                      "/assets/user.png"
-                    }
-                    alt="User"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={session.user.image || "/assets/user.png"} alt="User" fill className="object-cover" />
                 </div>
 
                 <div className="min-w-0">
-                  <p className="font-medium text-white">
-                    {session.user.name}
-                  </p>
-
-                  <p className="truncate text-sm text-gray-400">
-                    {session.user.email}
-                  </p>
+                  <p className="font-medium text-white">{session.user.name}</p>
+                  <p className="truncate text-sm text-gray-400">{session.user.email}</p>
                 </div>
               </div>
 
-              <Link
-                href="/profile"
-                onClick={() =>
-                  setIsMenuOpen(false)
-                }
-                className="block rounded-lg border border-white/10 px-4 py-3 text-center text-white"
-              >
-                Profile
-              </Link>
+              <Link href="/profile" onClick={() => setIsMenuOpen(false)} className="block rounded-lg border border-white/10 px-4 py-3 text-center text-white">Profile</Link>
 
-              <button
-                onClick={handleSignOut}
-                className="w-full rounded-lg border border-red-500/20 px-4 py-3 text-red-400"
-              >
-                Logout
-              </button>
+              <button onClick={handleSignOut} className="w-full rounded-lg border border-red-500/20 px-4 py-3 text-red-400">Logout</button>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              <Link
-                href="/login"
-                className="rounded-lg border border-white/10 px-4 py-3 text-center text-violet-400"
-              >
-                Login
-              </Link>
+              <Link href="/login" className="rounded-lg border border-white/10 px-4 py-3 text-center text-violet-400">Login</Link>
 
-              <Link
-                href="/register"
-                className="rounded-lg bg-white px-4 py-3 text-center font-medium text-black"
-              >
-                Get Started
-              </Link>
+              <Link href="/register" className="rounded-lg bg-white px-4 py-3 text-center font-medium text-black">Get Started</Link>
             </div>
           )}
         </div>

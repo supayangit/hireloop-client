@@ -11,6 +11,7 @@ import {
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
+import LazyProfile from "@/components/LazyProfile";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { FiPlus } from 'react-icons/fi';
@@ -65,20 +66,7 @@ export function DashboardSidebar() {
                         <h1 className="text-2xl font-bold text-white">HireLoop</h1>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <div className="relative h-10 w-10 overflow-hidden rounded-full bg-white/5">
-                            <img
-                                src={session?.user?.image || "/avatar-placeholder.png"}
-                                alt={session?.user?.name || "User"}
-                                className="h-10 w-10 object-cover rounded-full"
-                            />
-                        </div>
-
-                        <div>
-                            <div className="text-sm font-semibold text-white">{session?.user?.name || "Alex Sterling"}</div>
-                            <div className="text-xs text-gray-400">{session?.user?.role || session?.user?.user_metadata?.role || "Recruiter · Premium"}</div>
-                        </div>
-                    </div>
+                    <LazyProfile variant="sidebar" />
                 </div>
 
                 <div className="flex-1">{NavLink}</div>
