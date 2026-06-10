@@ -48,8 +48,11 @@ export const getJobs = async (recruiterId) => {
 }
 
 export const getJobById = async (id) => {
-    const jobs = await getJobs();
-    return jobs.find(j => j._id === id) || null;
+    if (!id) return null;
+    const res = await fetch(`${baseUrl}/api/jobs/${encodeURIComponent(id)}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch job');
+    const data = await res.json();
+    return data.job || data || null;
 }
 
 // Fetch all jobs with optional server-side filtering parameters

@@ -38,28 +38,7 @@ const JobCard = async ({ job }) => {
   const displayCategory = capitalize(category) || "Not specified";
 
   return (
-    <div
-      className="
-        group
-        h-full
-        rounded-[24px]
-        border
-        border-white/[0.08]
-        bg-gradient-to-b
-        from-[#1d1d1d]
-        to-[#171717]
-        p-6
-        flex
-        flex-col
-        justify-between
-        transition-all
-        duration-300
-        ease-out
-        hover:border-white/[0.15]
-        hover:shadow-[0_0_40px_rgba(255,255,255,0.03)]
-        hover:scale-[1.01]
-      "
-    >
+    <div className="group h-full rounded-[24px] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-6 flex flex-col justify-between transition-all duration-300 ease-out hover:border-white/[0.15] hover:shadow-[0_0_40px_rgba(255,255,255,0.03)] hover:scale-[1.01]">
       <div>
         {/* Header */}
         <div className="flex items-start justify-between gap-4">

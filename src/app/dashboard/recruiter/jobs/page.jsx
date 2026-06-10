@@ -1,11 +1,10 @@
 import React from "react";
-import { getJobs } from "../../../../lib/actions/jobs";
-import JobListRow from "../../../../components/dashboard/JobListRow";
-import { getCompanies } from "../../../../lib/actions/company";
+import { getJobs } from "@/lib/actions/jobs";
+import JobListRow from "@/components/dashboard/JobListRow";
+import { getCompanies } from "@/lib/actions/company";
 import { getUserSession } from '@/lib/core/session';
 import Link from "next/link";
 import { FiPlus } from 'react-icons/fi';
-import { Button } from '@heroui/react';
 
 const RecruiterJobsPage = async () => {
     const jobs = await getJobs();
@@ -36,11 +35,12 @@ const RecruiterJobsPage = async () => {
                     </p>
                 </div>
 
-                <Link href="/dashboard/recruiter/post">
-                    <Button className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
-                        <FiPlus />
-                        Post a Job
-                    </Button>
+                <Link
+                    href="/dashboard/recruiter/post"
+                    className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
+                >
+                    <FiPlus />
+                    Post a Job
                 </Link>
             </div>
 
@@ -69,18 +69,7 @@ const RecruiterJobsPage = async () => {
                     </table>
                 </div>
             ) : (
-                <div
-                    className="
-            rounded-[24px]
-            border
-            border-white/[0.08]
-            bg-gradient-to-b
-            from-[#1d1d1d]
-            to-[#171717]
-            p-12
-            text-center
-          "
-                >
+                                <div className="rounded-[24px] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-12 text-center">
                     <h3 className="text-xl font-semibold text-white">
                         No jobs found
                     </h3>

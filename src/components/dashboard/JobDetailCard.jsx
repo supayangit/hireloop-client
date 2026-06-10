@@ -43,17 +43,7 @@ const JobDetailCard = async ({ job, backHref = '/dashboard/recruiter/jobs' }) =>
       {/* Back Link moved into fixed nav (same row) */}
 
       {/* Card */}
-      <div
-        className="
-          rounded-[24px]
-          border
-          border-white/[0.08]
-          bg-gradient-to-b
-          from-[#1d1d1d]
-          to-[#171717]
-          p-8
-        "
-      >
+      <div className="rounded-[24px] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-8">
         {/* Header */}
         <div id="overview" className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div>
