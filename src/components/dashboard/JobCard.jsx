@@ -27,6 +27,7 @@ const JobCard = async ({ job }) => {
     requirements,
   } = job;
 
+
   const company = companyId ? await getCompanyById(companyId) : null;
   const companyName = company?.name || company?.title || company?.companyName || null;
 
