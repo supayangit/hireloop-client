@@ -52,14 +52,27 @@ export const getJobById = async (id) => {
     return jobs.find(j => j._id === id) || null;
 }
 
-// Fetch all jobs without recruiter/company filtering
-export const getAllJobs = async () => {
-    const url = `${baseUrl}/api/jobs`;
+// Fetch all jobs with optional server-side filtering parameters
+export const getAllJobs = async (filters = {}) => {
+    const { search, category, type } = filters;
+    
+    // Construct URL query parameters dynamically
+    const params = new URLSearchParams();
+    
+    if (search) params.append('search', search);
+    if (category && category !== 'all') params.append('category', category);
+    if (type && type !== 'all') params.append('type', type);
+
+    // Append query string if any filters exist
+    const queryString = params.toString();
+    const url = `${baseUrl}/api/jobs${queryString ? `?${queryString}` : ''}`;
+
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch jobs');
+    
     const data = await res.json();
     return data.jobs || [];
-}
+};
 
 // Update a job by id
 export const updateJob = async (id, updateData) => {
