@@ -7,7 +7,9 @@ export default async function ApplyPage({ params }) {
 
   const user = await getUserSession();
   if (!user) {
-    return redirect("/login");
+    // Safely encode the path target
+    const fallbackPath = encodeURIComponent(`/jobs/${id}/apply`);
+    return redirect(`/login?next=${fallbackPath}`);
   }
 
   return <ApplyForm jobId={id} user={user} />;

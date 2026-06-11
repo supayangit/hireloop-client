@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Check } from "@gravity-ui/icons";
 import { Button, Input, Label, InputGroup } from "@heroui/react";
@@ -15,8 +15,11 @@ const SigninPage = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  // Extract the 'next' parameter value. Fall back to home page if null.
+  const callbackUrl = searchParams.get("next") || "/";
 
   const {
     register,
@@ -50,7 +53,7 @@ const SigninPage = () => {
 
       toast.success("Successfully loggged in!");
 
-      router.push("/");
+      router.push(callbackUrl);
 
     } catch (err) {
 
