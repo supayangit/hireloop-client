@@ -9,6 +9,7 @@ import {
 } from "react-icons/fi";
 import { capitalize } from "@/lib/string";
 import { getCompanyById } from "@/lib/actions/company";
+import { getUserSession } from "@/lib/core/session";
 
 const JobDetailCard = async ({ job, backHref = '/dashboard/recruiter/jobs' }) => {
   if (!job) return null;
@@ -16,6 +17,8 @@ const JobDetailCard = async ({ job, backHref = '/dashboard/recruiter/jobs' }) =>
   const company = job.companyId ? await getCompanyById(job.companyId) : job.company || null;
   const companyName = company?.name || job.companyName || null;
   const companyLogo = company?.logo || job.companyLogo || job.logo || null;
+  const user = await getUserSession();
+  const isRecruiter = user?.role === 'recruiter';
 
   return (
     <div className="">
@@ -180,7 +183,9 @@ const JobDetailCard = async ({ job, backHref = '/dashboard/recruiter/jobs' }) =>
           <div id="apply" className="flex items-center justify-end">
             <Link
               href={`/jobs/${job._id}/apply`}
-              className="inline-flex items-center px-5 py-3 rounded-xl border border-white/[0.08] bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
+              className={`inline-flex items-center px-5 py-3 rounded-xl border border-white/[0.08] bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 ${isRecruiter ? 'opacity-50 pointer-events-none cursor-not-allowed hover:bg-indigo-600' : ''}`}
+              aria-disabled={isRecruiter}
+              title={isRecruiter ? 'Recruiter accounts cannot apply' : 'Apply to this job'}
             >
               Apply Now
             </Link>
