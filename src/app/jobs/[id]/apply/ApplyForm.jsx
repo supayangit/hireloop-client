@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { submitApplication } from "@/lib/actions/apply";
+import { submitApplication } from "@/lib/actions/application";
 import toast from "react-hot-toast";
 
 export default function ApplyForm({ jobId, user }) {
+  console.log("job id in form:", jobId);
   const userId = user?.id || user?._id || null;
   const [form, setForm] = useState({ name: user?.name || "", email: user?.email || "", coverLetter: "", resumeLink: "" });
   const [loading, setLoading] = useState(false);
