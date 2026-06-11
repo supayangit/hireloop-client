@@ -1,5 +1,5 @@
 import React from 'react';
-import JobDetailCard from '@/components/dashboard/JobDetailCard';
+import JobDetailCard from '@/components/JobDetailCard';
 import { getJobById } from '@/lib/actions/jobs';
 
 const JobDetailPage = async ({ params }) => {
