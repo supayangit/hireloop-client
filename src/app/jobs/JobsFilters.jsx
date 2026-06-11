@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Input, Select, Label, ListBox } from "@heroui/react"; // 💡 Kept original matching items
 import { FiSearch } from "react-icons/fi";
 
-export default function JobsFilters({ categories, types }) {
+function JobsFiltersInner({ categories, types }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -119,5 +119,13 @@ export default function JobsFilters({ categories, types }) {
 
       </div>
     </div>
+  );
+}
+
+export default function JobsFilters(props) {
+  return (
+    <Suspense fallback={<div/>}>
+      <JobsFiltersInner {...props} />
+    </Suspense>
   );
 }

@@ -7,11 +7,11 @@ import Link from "next/link";
 import { Check } from "@gravity-ui/icons";
 import { Button, Input, Label, InputGroup } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
 
-const SigninPage = () => {
+function SigninContent() {
 
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -314,6 +314,12 @@ const SigninPage = () => {
 
     </div>
   );
-};
+}
 
-export default SigninPage;
+export default function SigninPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SigninContent />
+    </Suspense>
+  );
+}
