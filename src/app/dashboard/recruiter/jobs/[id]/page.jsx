@@ -1,6 +1,6 @@
 import React from 'react';
-import JobDetailCard from '../../../../../components/dashboard/JobDetailCard';
-import { getJobById } from '../../../../../lib/actions/jobs';
+import JobDetailCard from '@/components/dashboard/JobDetailCard';
+import { getJobById } from '@/lib/actions/jobs';
 
 const JobDetailPage = async ({ params }) => {
   const { id } = await params;

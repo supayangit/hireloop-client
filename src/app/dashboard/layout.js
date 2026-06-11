@@ -1,5 +1,5 @@
 import React from 'react';
-import {DashboardSidebar} from "../../components/dashboard/DashboardSidebar";
+import {DashboardSidebar} from "@/components/dashboard/DashboardSidebar";
 
 const DashboardLayout = ({children}) => {
     return (
