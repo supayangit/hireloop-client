@@ -87,9 +87,13 @@ function SigninContent() {
   const handleGoogleSignIn = async () => {
 
     try {
+      // Grab the dynamic 'next' destination right now before leaving the site
+      const currentCallbackUrl = searchParams.get("next") || "/";
 
+      // Pass it to better-auth so it remembers where to send the user
       await authClient.signIn.social({
         provider: "google",
+        callbackURL: currentCallbackUrl, // better-auth will handle the redirect automatically
       });
 
       toast.success("Loging in with Google...");
