@@ -53,7 +53,18 @@ function SigninContent() {
 
       toast.success("Successfully loggged in!");
 
-      router.push(callbackUrl);
+      // Force Next.js server components / middleware to clear their route cache
+      router.refresh();
+
+      // Wrap the navigation slightly to allow the cookie state to settle
+      setTimeout(() => {
+        // Hard navigation to force absolute sync (Safest for production auth loops)
+        window.location.href = callbackUrl;
+        
+        // Option B:  stay inside Next SPA routing:
+        // router.push(callbackUrl);
+      }, 100);
+
 
     } catch (err) {
 
